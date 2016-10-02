@@ -57,4 +57,58 @@
   };
 
   // ADD YOUR CODE HERE
+  window.onload = function() {
+    document.getElementsByTagName('button')[0].addEventListener('click', doAjax);
+  }
+
+  function doAjax(event) {
+    event.preventDefault();
+
+    let searchWord = document.getElementById('search').value;
+
+    if (searchWord.length === 0) return false;
+
+    // let target = document.getElementById('listings');
+    // console.log(target);
+    // let previousResults = $(target).children();
+    //
+    // for (var i = 0; i < previousResults.length; i++) {
+    //   $(previousResults).remove();
+    // }
+
+    // The object we use to start the AJAX request using JQuery's format
+    let requestObject = {
+      url: `https://www.omdbapi.com/?s=${searchWord}&y=&r=json`,
+      method: "GET",
+      success: handleSuccess
+    };
+
+    // Actually start the AJAX request
+    $.ajax(requestObject);
+  }
+  // The event handler for a successful ajax request, used in doAjax
+  function handleSuccess(data) {
+    let movieArray = data["Search"];
+
+    var Movie = function(id, poster, title, year) {
+      this.id = id || "";
+      this.poster = poster || "";
+      this.title = title || "";
+      this.year = year || "";
+      this.plot = "";
+    }
+
+    for (var i = 0; i < movieArray.length; i++) {
+      console.log(i, movieArray[i]);
+      var movieElement = new Movie (movieArray[i].imdbID, movieArray[i].Poster,
+        movieArray[i].Title, movieArray[i].Year);
+
+      // movieArray[i].plot = getPlot(movieArray[i].imdbID);
+
+      movies.push(movieElement);
+    }
+
+    renderMovies();
+  }
+
 })();
