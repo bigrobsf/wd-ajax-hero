@@ -104,9 +104,6 @@
 
     document.getElementById('search').value = "";
 
-    // let inputField = document.getElementById('search');
-    // inputField.reset();
-
     renderMovies();
   }
 
