@@ -68,14 +68,6 @@
 
     if (searchWord.length === 0) return false;
 
-    // let target = document.getElementById('listings');
-    // console.log(target);
-    // let previousResults = $(target).children();
-    //
-    // for (var i = 0; i < previousResults.length; i++) {
-    //   $(previousResults).remove();
-    // }
-
     // The object we use to start the AJAX request using JQuery's format
     let requestObject = {
       url: `https://www.omdbapi.com/?s=${searchWord}&y=&r=json`,
@@ -90,6 +82,8 @@
   function handleSuccess(data) {
     let movieArray = data["Search"];
 
+    movies = [];
+
     var Movie = function(id, poster, title, year) {
       this.id = id || "";
       this.poster = poster || "";
@@ -99,16 +93,37 @@
     }
 
     for (var i = 0; i < movieArray.length; i++) {
-      console.log(i, movieArray[i]);
       var movieElement = new Movie (movieArray[i].imdbID, movieArray[i].Poster,
         movieArray[i].Title, movieArray[i].Year);
 
-      // movieArray[i].plot = getPlot(movieArray[i].imdbID);
+      // movieElement.plot = getPlot(movieArray[i].imdbID);
 
       movies.push(movieElement);
+
     }
+
+    document.getElementById('search').value = "";
+
+    // let inputField = document.getElementById('search');
+    // inputField.reset();
 
     renderMovies();
   }
+
+  // function getPlot(imdbID) {
+  //   return $.ajax({
+  //     method: "GET",
+  //     url: "http://omdbapi.com/?i=${imdbID}",
+  //     // url: "http://omdbapi.com/?i=tt1392190",
+  //     // url: "http://omdbapi.com/?i=${imdbID}&plot=full&r=json",
+  //     success: function(info) {
+  //       console.log(info.Plot);
+  //     },
+  //     error: function(err){
+  //       console.log("FAIL")
+  //       console.log(err)
+  //     }
+  //   });
+  // }
 
 })();
